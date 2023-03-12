@@ -10,7 +10,6 @@ s.scrapedata()
 
 
 class Item(BaseModel):
-    id: int
     team: str
     points: int
     link: str
@@ -18,7 +17,7 @@ class Item(BaseModel):
 
 @app.get('/')
 async def root():
-    return {"message": "Hello World"}
+    return {'message': 'Hello World'}
 
 
 @app.get('/ranking')
@@ -49,3 +48,17 @@ async def add_item(item: Item):
     j.close()
 
     return item
+
+
+@app.delete('/ranking/{item_id}')
+async def delete_item(item_id: int):
+    j = open('data.json', 'r')
+    data = json.load(j)
+    data.pop(item_id)
+    j.close()
+
+    j = open('data.json', 'w')
+    j.write(json.dumps(data))
+    j.close()
+
+    return {'message': 'Deleted'}

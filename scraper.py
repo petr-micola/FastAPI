@@ -14,7 +14,6 @@ class Scraper:
 
         for d in data:
             item = {
-                'id': data.index(d),
                 'team': d.find('span.GeneralStats-clubName', first=True).text,
                 'points': int(d.find('div.GeneralStats-item--points', first=True).text),
                 'link': list(d.find('a.GeneralStats-link', first=True).absolute_links)[0]
