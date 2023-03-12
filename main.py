@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI
 from scraper import Scraper
 
@@ -7,4 +9,8 @@ quotes = Scraper()
 
 @app.get("/{matchday}")
 async def read_item(matchday):
-    return quotes.scrapedata(matchday)
+    quotes.scrapedata(matchday)
+    j = open('data.json')
+    jsondata = json.load(j)
+    j.close()
+    return jsondata

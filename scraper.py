@@ -1,4 +1,5 @@
 from requests_html import HTMLSession
+import json
 
 
 class Scraper:
@@ -12,9 +13,12 @@ class Scraper:
 
         for q in quotes:
             item = {
+                'id': quotes.index(q) + 1,
                 'name': q.find('span.GeneralStats-clubName', first=True).text.strip()
             }
-            print(item)
             qlist.append(item)
 
-        return qlist
+        jsonstring = json.dumps(qlist)
+        jsonfile = open("data.json", "w")
+        jsonfile.write(jsonstring)
+        jsonfile.close()
