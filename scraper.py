@@ -3,24 +3,24 @@ import json
 
 
 class Scraper:
-    def scrapedata(self, matchday):
-        url = f'https://www.ligue1.com/ranking?matchDay={matchday}'
+    def scrapedata(self):
+        url = f'https://www.ligue1.com/ranking'
         s = HTMLSession()
         r = s.get(url)
-        print(r.status_code)
-        qlist = []
-        quotes = r.html.find('li.GeneralStats-row')
 
-        for q in quotes:
+        data = r.html.find('li.GeneralStats-row')
+
+        dlist = []
+
+        for d in data:
             item = {
-                'position': quotes.index(q) + 1,
-                'team': q.find('span.GeneralStats-clubName', first=True).text,
-                'points': int(q.find('div.GeneralStats-item--points', first=True).text),
-                'link': list(q.find('a.GeneralStats-link', first=True).absolute_links)[0]
+                'id': data.index(d),
+                'team': d.find('span.GeneralStats-clubName', first=True).text,
+                'points': int(d.find('div.GeneralStats-item--points', first=True).text),
+                'link': list(d.find('a.GeneralStats-link', first=True).absolute_links)[0]
             }
-            qlist.append(item)
+            dlist.append(item)
 
-        jsonstring = json.dumps(qlist)
-        jsonfile = open("data.json", "w")
-        jsonfile.write(jsonstring)
-        jsonfile.close()
+        j = open('data.json', 'w')
+        j.write(json.dumps(dlist))
+        j.close()
