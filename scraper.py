@@ -13,8 +13,10 @@ class Scraper:
 
         for q in quotes:
             item = {
-                'id': quotes.index(q) + 1,
-                'name': q.find('span.GeneralStats-clubName', first=True).text.strip()
+                'position': quotes.index(q) + 1,
+                'team': q.find('span.GeneralStats-clubName', first=True).text,
+                'points': int(q.find('div.GeneralStats-item--points', first=True).text),
+                'link': list(q.find('a.GeneralStats-link', first=True).absolute_links)[0]
             }
             qlist.append(item)
 
